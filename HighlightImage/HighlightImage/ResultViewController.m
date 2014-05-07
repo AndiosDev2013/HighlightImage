@@ -52,4 +52,12 @@
 }
 */
 
+-(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return ResultImageView;
+}
+
+-(IBAction)onSave:(id)sender {
+    UIImageWriteToSavedPhotosAlbum(ResultImageView.image, nil, nil, nil);
+}
 @end

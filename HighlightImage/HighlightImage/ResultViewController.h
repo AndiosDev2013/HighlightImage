@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ResultViewController : UIViewController
+@interface ResultViewController : UIViewController <UIScrollViewDelegate>
 {
     IBOutlet UIImageView *ResultImageView;
+    IBOutlet UIButton *btnSave;
 }
 
 @property (nonatomic, retain) CIImage *resultImage;
-
+- (IBAction)onSave:(id)sender;
 @end
