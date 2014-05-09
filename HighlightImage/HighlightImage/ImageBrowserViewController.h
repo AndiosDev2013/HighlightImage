@@ -11,31 +11,33 @@
 
 @interface ImageBrowserViewController : UIViewController <UIImagePickerControllerDelegate>
 {
+    UIImage *waterMarkImage;
     CIImage *ciOrgImage;
-    CIImage *finalResultImage;
     CIImage *backImage;
     CIImage *yellowHighlighted;
+    CIImage *blueHighlighted;
+    CIImage *blueResult;
+    
     uint32_t *drawingData;
     float *brightnessData;
     NSUInteger brightnessDataWidth, brightnessDataHeight;
     CFDataRef orgRawData;
+    CFDataRef waterMarkData;
     int width, height;
     
+#if 0
     float *pixelCalcData;
     float *pixelValueData;
     int *pixelAlphaData;
     int *pixelAlphaTempData;
+#endif
     
-    IBOutlet UIImageView *RealImageView;
-    IBOutlet UIImageView *GrayScaledImageView;
-    IBOutlet UIImageView *BlueHighligtedImageView;
-    IBOutlet UIImageView *YellowHighligtedImageView;
-    
-    IBOutlet UIButton *btn_next;
-    IBOutlet UIButton *btn_color;
-    IBOutlet UIButton *btn_color_region;
-    IBOutlet UIButton *btn_color_line;
-    IBOutlet UIActivityIndicatorView *activity;
+    IBOutlet UIImageView *ResultImageView;
+    IBOutlet UIScrollView *scrollView;
+    IBOutlet UIButton *btn_send;
+    IBOutlet UIButton *btn_save;
+    IBOutlet UIView   *toolBar;
+    IBOutlet UIView   *sliderRegion;
     
     ColorRangePickerSlider *blueAng1;
     ColorRangePickerSlider *blueAng2;
@@ -48,14 +50,14 @@
     int yellowAngVal1;
     int yellowAngVal2;
     int brightLimitVal;
+    bool f_showToolBar;
+    bool f_animating;
     
-    int mode;
+    CGPoint curPos;
 }
 @property (nonatomic, retain) UIImage *realImage;
-@property (nonatomic, retain) UIImage *compositeImage;
 
--(IBAction)onColor:(id)sender;
--(IBAction)onColorRegion:(id)sender;
--(IBAction)onColorLine:(id)sender;
+- (IBAction)onSave:(id)sender;
+- (IBAction)onSend:(id)sender;
 
 @end

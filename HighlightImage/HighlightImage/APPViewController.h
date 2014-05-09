@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface APPViewController : UIViewController <UIImagePickerControllerDelegate>
-
+{
+    UITextView *numberView;
+    UIImagePickerController *picker;
+    int count;
+}
 @end

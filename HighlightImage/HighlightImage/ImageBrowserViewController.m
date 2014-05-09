@@ -7,15 +7,19 @@
 //
 
 #import "ImageBrowserViewController.h"
-#import "ResultViewController.h"
+#import <MessageUI/MessageUI.h>
 
 #define segmentSize    10
+#define drawingThick   20
 #define yellowLimitLow  20
 #define yellowLimitHigh 88
 #define blueLimitLow    120
 #define blueLimitHigh   240
 #define satureLimitLow  0.2
 #define satureLimitHigh 0.95
+#define waterMarkOffset 100
+
+#if 0
 #define intensitySegment 10
 #define fillSegment      20
 #define removeSegment    10
@@ -23,6 +27,7 @@
 #define COLOR_MODE      1
 #define REGION_MODE     2
 #define LINE_MODE       3
+#endif
 
 @interface ImageBrowserViewController ()
 
@@ -75,8 +80,7 @@
     
     // set real imageview
     if (self.realImage != NULL) {
-        RealImageView.image = self.realImage;
-        CGRect topViewRect = RealImageView.bounds;
+        CGRect ViewRect = self.view.bounds;
         
         blueAngVal1 = 50;
         blueAngVal2 = 360;
@@ -85,53 +89,58 @@
         brightLimitVal = 120;
         
         //Show color picker slider
-        blueAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(20,topViewRect.size.height + 102 , topViewRect.size.width, 40) WithBackground:@"blue.png"];
+        blueAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(10, 27, 280, 40) WithBackground:@"blue.png"];
         blueAng1.value = 1.0 - blueAngVal1 / 360.0f;
         [blueAng1 addTarget:self action:@selector(blueAngleFirstChanged:) forControlEvents:UIControlEventValueChanged];
         
-        blueAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(20,topViewRect.size.height + 152 , topViewRect.size.width, 40) WithBackground:@"blue.png"];
+        blueAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(10, 94, 280, 40)  WithBackground:@"blue.png"];
         blueAng2.value = 1.0 - blueAngVal2 / 360.0f;
         [blueAng2 addTarget:self action:@selector(blueAngleSecondChanged:) forControlEvents:UIControlEventValueChanged];
         
-        yellowAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(748 - topViewRect.size.width,topViewRect.size.height + 87 , topViewRect.size.width, 40) WithBackground:@"yellow.png"];
+        yellowAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 10, 280, 40) WithBackground:@"yellow.png"];
         yellowAng1.value = 1.0 - yellowAngVal1 / 360.0f;
         [yellowAng1 addTarget:self action:@selector(yellowAngleFirstChanged:) forControlEvents:UIControlEventValueChanged];
         
-        yellowAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(748 - topViewRect.size.width,topViewRect.size.height + 127 , topViewRect.size.width, 40) WithBackground:@"yellow.png"];
+        yellowAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 60, 280, 40)WithBackground:@"yellow.png"];
         yellowAng2.value = 1.0 - yellowAngVal2 / 360.0f;
         [yellowAng2 addTarget:self action:@selector(yellowAngleSecondChanged:) forControlEvents:UIControlEventValueChanged];
         
-        brightBar = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(748 - topViewRect.size.width,topViewRect.size.height + 167 , topViewRect.size.width, 40) WithBackground:@"brightness.png"];
+        brightBar = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 110, 280, 40)WithBackground:@"brightness.png"];
         brightBar.value = 1.0 - brightLimitVal / 360.0f;
         [brightBar addTarget:self action:@selector(brightChanged:) forControlEvents:UIControlEventValueChanged];
+        UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handlePan:)];
         
-        [self.view addSubview:blueAng1];
-        [self.view addSubview:blueAng2];
-        [self.view addSubview:yellowAng1];
-        [self.view addSubview:yellowAng2];
-        [self.view addSubview:brightBar];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_handleTouch:)];
+        tapGesture.numberOfTapsRequired = 2;
+        
+        [sliderRegion addSubview:blueAng1];
+        [sliderRegion addSubview:blueAng2];
+        [sliderRegion addSubview:yellowAng1];
+        [sliderRegion addSubview:yellowAng2];
+        [sliderRegion addSubview:brightBar];
+        [toolBar addGestureRecognizer:tapGesture];
+        [scrollView addGestureRecognizer:panGesture];
         
         //Store org image
         ciOrgImage = [[CIImage alloc] initWithCGImage:self.realImage.CGImage];
-        
-        //Store grayscale as background
-        UIImage *grayscaleImage = [self convertImageToGrayScale:self.realImage];
-        backImage = [[CIImage alloc] initWithImage:grayscaleImage];
-        
-        //Show gray-scale background image
-        GrayScaledImageView.image = [UIImage imageWithCGImage:grayscaleImage.CGImage];
-        
         width = (int)CGImageGetWidth(self.realImage.CGImage);
         height = (int)CGImageGetHeight(self.realImage.CGImage);
-        
-        NSLog(@"%lu::%lu", (unsigned long)width, (unsigned long)height);
-        
         orgRawData = CGDataProviderCopyData(CGImageGetDataProvider(self.realImage.CGImage));
         
         if (drawingData != nil)
             free(drawingData);
         drawingData = malloc(width * height * sizeof(uint32_t));
         
+        //Store grayscale as background
+        UIImage *grayscaleImage = [self convertImageToGrayScale:self.realImage];
+        backImage = [[CIImage alloc] initWithImage:grayscaleImage];
+
+        NSLog(@"%lu::%lu", (unsigned long)width, (unsigned long)height);
+        
+        //Store watermark image data
+        waterMarkImage = [UIImage imageNamed:@"watermark.png"];
+        waterMarkData = CGDataProviderCopyData(CGImageGetDataProvider(waterMarkImage.CGImage));
+#if 0
         if (pixelCalcData != nil)
             free (pixelCalcData);
         pixelCalcData = malloc(width * height * sizeof(float));
@@ -147,26 +156,48 @@
         if (pixelAlphaTempData != nil)
             free (pixelAlphaTempData);
         pixelAlphaTempData = malloc(width * height * sizeof(int));
+#endif
         
         brightnessData = nil;
         
-        mode = COLOR_MODE;
-        [self.view setAlpha:0.5f];
-        [self.view setUserInteractionEnabled:false];
+        @autoreleasepool {
+            [self calcBrightness];
+            [self updateBlueResultView];
+            [self updateYellowResultView];
+        }
         
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC);
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            @autoreleasepool {
-                [self calcBrightness];
-                [self updateBlueResultView];
-                [self updateYellowResultView];
-            }
-            
-            [activity stopAnimating];
-            [self.view setAlpha:1.0f];
-            [self.view setUserInteractionEnabled:true];
-        });
+        f_showToolBar = true;
+        [self performSelector:@selector(hideToolBar) withObject:nil afterDelay:1.0f];
+        f_animating = true;
     }
+}
+
+- (void) hideToolBar {
+    [UIView animateWithDuration:1.0f
+                          delay:0
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         toolBar.alpha = 0.5f;
+                         [toolBar setCenter:CGPointMake(toolBar.center.x, toolBar.center.y + toolBar.frame.size.height - 50)];
+                     }
+                     completion:^(BOOL finished) {
+                         f_showToolBar = false;
+                         f_animating = false;
+                     }];
+}
+
+- (void) showToolBar {
+    [UIView animateWithDuration:1.0f
+                          delay:0
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         toolBar.alpha = 1.0f;
+                         [toolBar setCenter:CGPointMake(toolBar.center.x, toolBar.center.y - toolBar.frame.size.height + 50)];
+                     }
+                     completion:^(BOOL finished) {
+                         f_showToolBar = true;
+                         f_animating = false;
+                     }];
 }
 
 -(void) updateBlueResultView {
@@ -174,16 +205,13 @@
     float realAngVal2 = blueLimitLow + (blueAngVal2 / 360.0f) * (blueLimitHigh - blueLimitLow);
     
     //Pick only blue and yellow colors
-    CIImage *blueHighlighted = [self render:MIN(realAngVal1, realAngVal2)
+    blueHighlighted = [self render:MIN(realAngVal1, realAngVal2)
                                         max:MAX(realAngVal1, realAngVal2) bright:false];
     //Merge with gray-scale background image
-    CIImage *blueResult = [self mergeWithBackground:blueHighlighted background:backImage];
+    blueResult = [self mergeWithBackground:blueHighlighted background:backImage];
     
     //Get final result image
-    finalResultImage = [self mergeWithBackground:yellowHighlighted background:blueResult];
-    
-    //Show blue highlighed result image
-    BlueHighligtedImageView.image = [UIImage imageWithCIImage:blueResult];
+    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:yellowHighlighted background:blueResult]];
 }
 
 -(void) updateYellowResultView {
@@ -194,15 +222,8 @@
     yellowHighlighted = [self render:MIN(realAngVal1, realAngVal2)
                                           max:MAX(realAngVal1, realAngVal2) bright:true];
     
-    //Merge with gray-scale background image
-    CIImage *yellowResult = [self mergeWithBackground:yellowHighlighted background:backImage];
-    
     //Get final result image
-    CIImage *blueResult = BlueHighligtedImageView.image.CIImage;
-    finalResultImage = [self mergeWithBackground:yellowHighlighted background:blueResult];
-    
-    //Show yellow highlighed result image
-    YellowHighligtedImageView.image = [UIImage imageWithCIImage:yellowResult];
+    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:yellowHighlighted background:blueResult]];
 }
 
 -(CIImage *) mergeWithBackground:(CIImage*)foreground background:(CIImage *)background {
@@ -309,14 +330,34 @@
     float rgb[3], hsv[3];
     uint8_t* rgbaValues;
     uint8_t* orgValues;
+    uint8_t* waterMarkValues;
     
+    int waterWidth = (int)CGImageGetWidth(waterMarkImage.CGImage);
+    int waterHeight = (int)CGImageGetHeight(waterMarkImage.CGImage);
     uint32_t* data = (uint32_t*)CFDataGetBytePtr(orgRawData);
+    uint32_t* waterData = (uint32_t*)CFDataGetBytePtr(waterMarkData);
+    int orgX = width - waterWidth - waterMarkOffset;
+    int orgY = height - waterHeight - waterMarkOffset;
+    int x,y;
     
     for (int y = 0; y < height; y++)
     {
         for (int x = 0; x < width; x++)
         {
             rgbaValues = (uint8_t*)&drawingData[y * width + x];
+            
+            if ((x >= orgX) && (x < orgX + waterWidth) &&
+                (y >= orgY) && (y < orgY + waterHeight)) {
+                waterMarkValues = (uint8_t*)&waterData[(y-orgY) * waterWidth + (x-orgX)];
+                if (waterMarkValues[3]) {
+                    rgbaValues[0] = waterMarkValues[3];
+                    rgbaValues[1] = waterMarkValues[0];
+                    rgbaValues[2] = waterMarkValues[1];
+                    rgbaValues[3] = waterMarkValues[2];
+                    continue;
+                }
+            }
+
             orgValues = (uint8_t*)&data[y * width + x];
             
             rgb[0] = orgValues[0] / 255.0f;
@@ -356,6 +397,40 @@
     return newImage;
 }
 
+- (void) removingNoise:(CGPoint)pos {
+    int x = (int)((pos.x / ResultImageView.frame.size.width) * width);
+    int y = (int)((pos.y / ResultImageView.frame.size.height) * height);
+    int i,j;
+    
+    for (j = y - drawingThick; j <= y + drawingThick; j++) {
+        if ((j < 0) || (j >= height))
+            continue;
+        for (i = x - drawingThick; i <= x + drawingThick; i++) {
+            if ((i < 0) || (i >= width))
+                continue;
+
+            memset(&drawingData[j * width + i], 0, sizeof(uint32_t));
+        }
+    }
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    NSUInteger bytesPerPixel = 4;
+    NSUInteger bytesPerRow = bytesPerPixel * width;
+    NSUInteger bitsPerComponent = 8;
+    CGContextRef context = CGBitmapContextCreate(drawingData, width, height,
+                                                 bitsPerComponent, bytesPerRow, colorSpace,
+                                                 kCGImageAlphaPremultipliedFirst);
+    CGColorSpaceRelease(colorSpace);
+    
+    CGImageRef newCGImage = CGBitmapContextCreateImage(context);
+    CIImage *newImage = [CIImage imageWithCGImage:newCGImage];
+    CGImageRelease(newCGImage);
+    CGContextRelease(context);
+    
+    //Get final result image
+    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:newImage background:blueResult]];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -365,6 +440,7 @@
 
 - (void) freeMemory {
     CFRelease(orgRawData);
+    CFRelease(waterMarkData);
     
     if (drawingData != nil)
         free (drawingData);
@@ -374,6 +450,7 @@
         free(brightnessData);
     brightnessData = nil;
     
+#if 0
     if (pixelCalcData != nil)
         free (pixelCalcData);
     pixelCalcData = nil;
@@ -389,19 +466,13 @@
     if (pixelAlphaTempData != nil)
         free (pixelAlphaTempData);
     pixelAlphaTempData = nil;
+#endif
 }
 
 -(void)viewDidUnload {
     [super viewDidUnload];
     
     [self freeMemory];
-}
-
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if (finalResultImage != NULL) {
-        ResultViewController *imgResultViewCtrl = segue.destinationViewController;
-        imgResultViewCtrl.resultImage = finalResultImage;
-    }
 }
 
 - (void) blueAngleFirstChanged:(ColorRangePickerSlider *)slider
@@ -419,28 +490,19 @@
 - (void) yellowAngleFirstChanged:(ColorRangePickerSlider *)slider
 {
 	yellowAngVal1 = 360 - slider.value;
-    if (mode == COLOR_MODE)
-        [self updateYellowResultView];
-    else
-        [self showImage];
+    [self updateYellowResultView];
 }
 
 - (void) yellowAngleSecondChanged:(ColorRangePickerSlider *)slider
 {
 	yellowAngVal2 = 360 - slider.value;
-    if (mode == COLOR_MODE)
-        [self updateYellowResultView];
-    else
-        [self showImage];
+    [self updateYellowResultView];
 }
 
 - (void) brightChanged:(ColorRangePickerSlider *)slider
 {
 	brightLimitVal = 360 - slider.value;
-    if (mode == COLOR_MODE)
-        [self updateYellowResultView];
-    else
-        [self showImage];
+    [self updateYellowResultView];
 }
 
 - (void) viewWillDisappear:(BOOL)animated
@@ -451,7 +513,57 @@
     [super viewWillDisappear:animated];
 }
 
-#if 1
+//-(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
+//{
+//    return ResultImageView;
+//}
+
+-(IBAction)onSave:(id)sender {
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIImage *resultImage = ResultImageView.image.CIImage;
+    CGImageRef outputImageRef = [context createCGImage:resultImage fromRect:[resultImage extent]];
+    
+    UIImageWriteToSavedPhotosAlbum([UIImage imageWithCGImage:outputImageRef], nil, nil, nil);
+}
+
+- (IBAction)onSend:(id)sender {
+    MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+    if ([MFMailComposeViewController canSendMail])
+    {
+        NSMutableString *body = [NSMutableString string];
+        [controller setSubject:@"Sending Image"];
+        
+        CIContext *context = [CIContext contextWithOptions:nil];
+        CIImage *resultImage = ResultImageView.image.CIImage;
+        CGImageRef outputImageRef = [context createCGImage:resultImage fromRect:[resultImage extent]];
+        UIImage *image = [UIImage imageWithCGImage:outputImageRef];
+        
+        NSData *myData = UIImageJPEGRepresentation(image, 1.0);
+        
+        [controller addAttachmentData:myData mimeType:@"image/png" fileName:@"coolImage"];
+        controller.mailComposeDelegate = self;
+        
+        [self presentModalViewController:controller animated:YES];
+    }
+}
+
+- (void)_handleTouch:(UITapGestureRecognizer*)recognizer {
+    if (f_animating)
+        return;
+    
+    f_animating = true;
+    if (f_showToolBar)
+        [self performSelector:@selector(hideToolBar) withObject:nil afterDelay:0.3f];
+    else
+        [self performSelector:@selector(showToolBar) withObject:nil afterDelay:0.3f];
+}
+
+- (void)_handlePan:(UIPanGestureRecognizer*)recognizer {
+    curPos = [recognizer locationInView:scrollView];
+    [self removingNoise:curPos];
+}
+
+#if 0
 - (void) medianFilter {
     uint8_t* rgbaValues;
     uint8_t* medianValue;

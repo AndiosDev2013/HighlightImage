@@ -7,13 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70C5B14D19051B9A00038A38 /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C5B14C19051B9A00038A38 /* ResultViewController.m */; };
+		70AAFFCC191A1E65008252BB /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AAFFCB191A1E65008252BB /* logo@2x.png */; };
+		70AAFFCE191A3379008252BB /* btn_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AAFFCD191A3379008252BB /* btn_background.png */; };
 		70C5B15019055D6400038A38 /* ColorRangePickerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C5B14F19055D6400038A38 /* ColorRangePickerSlider.m */; };
 		70C5B15319055DBD00038A38 /* UnitSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C5B15219055DBD00038A38 /* UnitSlider.m */; };
 		70C5B1591905679500038A38 /* colorPickerKnob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C5B1571905679500038A38 /* colorPickerKnob@2x.png */; };
 		70C910E8190D45C1009CD3FE /* blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C910E5190D45C1009CD3FE /* blue.png */; };
 		70C910E9190D45C1009CD3FE /* brightness.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C910E6190D45C1009CD3FE /* brightness.png */; };
 		70C910EA190D45C1009CD3FE /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C910E7190D45C1009CD3FE /* yellow.png */; };
+		70E08241191B65C400224485 /* watermark.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08240191B65C400224485 /* watermark.png */; };
 		F3A66598190276A000F5584D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66597190276A000F5584D /* Foundation.framework */; };
 		F3A6659A190276A000F5584D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66599190276A000F5584D /* CoreGraphics.framework */; };
 		F3A6659C190276A000F5584D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A6659B190276A000F5584D /* UIKit.framework */; };
@@ -42,8 +44,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		70C5B14B19051B9A00038A38 /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
-		70C5B14C19051B9A00038A38 /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
+		70AAFFCB191A1E65008252BB /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "Images/logo@2x.png"; sourceTree = "<group>"; };
+		70AAFFCD191A3379008252BB /* btn_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btn_background.png; path = Images/btn_background.png; sourceTree = "<group>"; };
 		70C5B14E19055D6400038A38 /* ColorRangePickerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorRangePickerSlider.h; sourceTree = "<group>"; };
 		70C5B14F19055D6400038A38 /* ColorRangePickerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorRangePickerSlider.m; sourceTree = "<group>"; };
 		70C5B15119055DBD00038A38 /* UnitSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnitSlider.h; sourceTree = "<group>"; };
@@ -52,6 +54,7 @@
 		70C910E5190D45C1009CD3FE /* blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blue.png; path = Images/blue.png; sourceTree = "<group>"; };
 		70C910E6190D45C1009CD3FE /* brightness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brightness.png; path = Images/brightness.png; sourceTree = "<group>"; };
 		70C910E7190D45C1009CD3FE /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yellow.png; path = Images/yellow.png; sourceTree = "<group>"; };
+		70E08240191B65C400224485 /* watermark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watermark.png; path = Images/watermark.png; sourceTree = "<group>"; };
 		F3A66594190276A000F5584D /* HighlightImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HighlightImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A66597190276A000F5584D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3A66599190276A000F5584D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -102,6 +105,9 @@
 		70C5B154190564E600038A38 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				70E08240191B65C400224485 /* watermark.png */,
+				70AAFFCD191A3379008252BB /* btn_background.png */,
+				70AAFFCB191A1E65008252BB /* logo@2x.png */,
 				70C910E5190D45C1009CD3FE /* blue.png */,
 				70C910E6190D45C1009CD3FE /* brightness.png */,
 				70C910E7190D45C1009CD3FE /* yellow.png */,
@@ -153,8 +159,6 @@
 				70C5B154190564E600038A38 /* Images */,
 				F3AAFE421904172800CEDB50 /* ImageBrowserViewController.h */,
 				F3AAFE431904172800CEDB50 /* ImageBrowserViewController.m */,
-				70C5B14B19051B9A00038A38 /* ResultViewController.h */,
-				70C5B14C19051B9A00038A38 /* ResultViewController.m */,
 				70C5B14E19055D6400038A38 /* ColorRangePickerSlider.h */,
 				70C5B14F19055D6400038A38 /* ColorRangePickerSlider.m */,
 				70C5B15119055DBD00038A38 /* UnitSlider.h */,
@@ -273,11 +277,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				70C910E9190D45C1009CD3FE /* brightness.png in Resources */,
+				70AAFFCC191A1E65008252BB /* logo@2x.png in Resources */,
+				70AAFFCE191A3379008252BB /* btn_background.png in Resources */,
 				F3A665B0190276A000F5584D /* Images.xcassets in Resources */,
 				70C910E8190D45C1009CD3FE /* blue.png in Resources */,
 				F3A665A2190276A000F5584D /* InfoPlist.strings in Resources */,
 				70C5B1591905679500038A38 /* colorPickerKnob@2x.png in Resources */,
 				F3A665AB190276A000F5584D /* Main.storyboard in Resources */,
+				70E08241191B65C400224485 /* watermark.png in Resources */,
 				70C910EA190D45C1009CD3FE /* yellow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,7 +309,6 @@
 				F3AAFE441904172800CEDB50 /* ImageBrowserViewController.m in Sources */,
 				70C5B15319055DBD00038A38 /* UnitSlider.m in Sources */,
 				F3A665A8190276A000F5584D /* APPAppDelegate.m in Sources */,
-				70C5B14D19051B9A00038A38 /* ResultViewController.m in Sources */,
 				F3A665A4190276A000F5584D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,8 +376,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Seb Druvent (42659995KS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Seb Druvent (42659995KS)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -389,7 +395,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "10A0DD6E-CF41-413B-9504-57B03341BDA9";
+				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -412,8 +418,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Seb Druvent (42659995KS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Seb Druvent (42659995KS)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -424,7 +430,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "10A0DD6E-CF41-413B-9504-57B03341BDA9";
+				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -435,14 +441,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Seb Druvent (42659995KS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Seb Druvent (42659995KS)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighlightImage/HighlightImage-Prefix.pch";
 				INFOPLIST_FILE = "HighlightImage/HighlightImage-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "10A0DD6E-CF41-413B-9504-57B03341BDA9";
+				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -452,14 +457,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Seb Druvent (42659995KS)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Seb Druvent (42659995KS)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighlightImage/HighlightImage-Prefix.pch";
 				INFOPLIST_FILE = "HighlightImage/HighlightImage-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "10A0DD6E-CF41-413B-9504-57B03341BDA9";
+				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
