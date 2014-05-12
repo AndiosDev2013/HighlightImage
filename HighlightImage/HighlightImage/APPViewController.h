@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface APPViewController : UIViewController <UIImagePickerControllerDelegate>
+@interface APPViewController : UIViewController  <UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     UITextView *numberView;
     UIImagePickerController *picker;

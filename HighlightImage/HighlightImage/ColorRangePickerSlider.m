@@ -41,6 +41,7 @@
 - (void) setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+    [checkerboard setFrame:CGRectMake(18, 6, frame.size.width - 36, frame.size.height - 12)];
     self.value = self.value;
 }
 @end

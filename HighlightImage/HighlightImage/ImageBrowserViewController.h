@@ -12,32 +12,29 @@
 @interface ImageBrowserViewController : UIViewController <UIImagePickerControllerDelegate>
 {
     UIImage *waterMarkImage;
-    CIImage *ciOrgImage;
-    CIImage *backImage;
-    CIImage *yellowHighlighted;
-    CIImage *blueHighlighted;
-    CIImage *blueResult;
     
     uint32_t *drawingData;
     float *brightnessData;
     NSUInteger brightnessDataWidth, brightnessDataHeight;
     CFDataRef orgRawData;
     CFDataRef waterMarkData;
+    CFDataRef grayData;
+    int *yellowAlphaData;
     int width, height;
     
 #if 0
     float *pixelCalcData;
-    float *pixelValueData;
     int *pixelAlphaData;
+    float *pixelValueData;
     int *pixelAlphaTempData;
 #endif
     
     IBOutlet UIImageView *ResultImageView;
-    IBOutlet UIScrollView *scrollView;
     IBOutlet UIButton *btn_send;
     IBOutlet UIButton *btn_save;
     IBOutlet UIView   *toolBar;
     IBOutlet UIView   *sliderRegion;
+    IBOutlet UIActivityIndicatorView *activity;
     
     ColorRangePickerSlider *blueAng1;
     ColorRangePickerSlider *blueAng2;
@@ -52,7 +49,8 @@
     int brightLimitVal;
     bool f_showToolBar;
     bool f_animating;
-    
+    bool f_landscapeImage;
+    UIInterfaceOrientation from;
     CGPoint curPos;
 }
 @property (nonatomic, retain) UIImage *realImage;

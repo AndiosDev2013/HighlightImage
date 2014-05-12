@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "F3A66593190276A000F5584D"
-               BuildableName = "HighlightImage.app"
+               BuildableName = "SWAROVSKI.app"
                BlueprintName = "HighlightImage"
                ReferencedContainer = "container:HighlightImage.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F3A66593190276A000F5584D"
-            BuildableName = "HighlightImage.app"
+            BuildableName = "SWAROVSKI.app"
             BlueprintName = "HighlightImage"
             ReferencedContainer = "container:HighlightImage.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F3A66593190276A000F5584D"
-            BuildableName = "HighlightImage.app"
+            BuildableName = "SWAROVSKI.app"
             BlueprintName = "HighlightImage"
             ReferencedContainer = "container:HighlightImage.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "F3A66593190276A000F5584D"
-            BuildableName = "HighlightImage.app"
+            BuildableName = "SWAROVSKI.app"
             BlueprintName = "HighlightImage"
             ReferencedContainer = "container:HighlightImage.xcodeproj">
          </BuildableReference>

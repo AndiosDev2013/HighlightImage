@@ -10,7 +10,7 @@
 #import <MessageUI/MessageUI.h>
 
 #define segmentSize    10
-#define drawingThick   20
+#define drawingThick   30
 #define yellowLimitLow  20
 #define yellowLimitHigh 88
 #define blueLimitLow    120
@@ -29,7 +29,7 @@
 #define LINE_MODE       3
 #endif
 
-@interface ImageBrowserViewController ()
+@interface ImageBrowserViewController ()<MFMailComposeViewControllerDelegate>
 
 @end
 
@@ -63,7 +63,7 @@
     
     // Create a new UIImage object
     UIImage *newImage = [UIImage imageWithCGImage:imageRef];
-    
+
     // Release colorspace, context and bitmap information
     CGColorSpaceRelease(colorSpace);
     CGContextRelease(context);
@@ -78,10 +78,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    // set real imageview
     if (self.realImage != NULL) {
-        CGRect ViewRect = self.view.bounds;
-        
         blueAngVal1 = 50;
         blueAngVal2 = 360;
         yellowAngVal1 = 70;
@@ -89,24 +86,32 @@
         brightLimitVal = 120;
         
         //Show color picker slider
-        blueAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(10, 27, 280, 40) WithBackground:@"blue.png"];
-        blueAng1.value = 1.0 - blueAngVal1 / 360.0f;
+        CGSize sliderSize = sliderRegion.frame.size;
+        int sliderWidth = (sliderSize.width - 40) / 2;
+        int sliderHeight = 40;
+        int gapX1 = 10;
+        int gapX2 = 20;
+        int gapY1 = (sliderSize.height - sliderHeight * 2) / 3;
+        int gapY2 = (sliderSize.height - sliderHeight * 3) / 4;
+        
+        blueAng1 = [[ColorRangePickerSlider alloc] initWithFrame:
+                    CGRectMake(gapX1, gapY1, sliderWidth, sliderHeight) WithBackground:@"blue.png"];
         [blueAng1 addTarget:self action:@selector(blueAngleFirstChanged:) forControlEvents:UIControlEventValueChanged];
         
-        blueAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(10, 94, 280, 40)  WithBackground:@"blue.png"];
-        blueAng2.value = 1.0 - blueAngVal2 / 360.0f;
+        blueAng2 = [[ColorRangePickerSlider alloc] initWithFrame:
+                    CGRectMake(gapX1, gapY1*2+sliderHeight, sliderWidth, sliderHeight)  WithBackground:@"blue.png"];
         [blueAng2 addTarget:self action:@selector(blueAngleSecondChanged:) forControlEvents:UIControlEventValueChanged];
         
-        yellowAng1 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 10, 280, 40) WithBackground:@"yellow.png"];
-        yellowAng1.value = 1.0 - yellowAngVal1 / 360.0f;
+        yellowAng1 = [[ColorRangePickerSlider alloc] initWithFrame:
+                      CGRectMake(gapX1+gapX2+sliderWidth, gapY2, sliderWidth, sliderHeight) WithBackground:@"yellow.png"];
         [yellowAng1 addTarget:self action:@selector(yellowAngleFirstChanged:) forControlEvents:UIControlEventValueChanged];
         
-        yellowAng2 = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 60, 280, 40)WithBackground:@"yellow.png"];
-        yellowAng2.value = 1.0 - yellowAngVal2 / 360.0f;
+        yellowAng2 = [[ColorRangePickerSlider alloc] initWithFrame:
+                      CGRectMake(gapX1+gapX2+sliderWidth, gapY2*2+sliderHeight, sliderWidth, sliderHeight)WithBackground:@"yellow.png"];
         [yellowAng2 addTarget:self action:@selector(yellowAngleSecondChanged:) forControlEvents:UIControlEventValueChanged];
         
-        brightBar = [[ColorRangePickerSlider alloc] initWithFrame:CGRectMake(310, 110, 280, 40)WithBackground:@"brightness.png"];
-        brightBar.value = 1.0 - brightLimitVal / 360.0f;
+        brightBar = [[ColorRangePickerSlider alloc] initWithFrame:
+                     CGRectMake(gapX1+gapX2+sliderWidth, gapY2*3+sliderHeight*2, sliderWidth, sliderHeight)WithBackground:@"brightness.png"];
         [brightBar addTarget:self action:@selector(brightChanged:) forControlEvents:UIControlEventValueChanged];
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(_handlePan:)];
         
@@ -119,10 +124,12 @@
         [sliderRegion addSubview:yellowAng2];
         [sliderRegion addSubview:brightBar];
         [toolBar addGestureRecognizer:tapGesture];
-        [scrollView addGestureRecognizer:panGesture];
+        [ResultImageView addGestureRecognizer:panGesture];
+        toolBar.alpha = 0.0f;
+        
+        ResultImageView.contentMode = UIViewContentModeScaleAspectFit;
         
         //Store org image
-        ciOrgImage = [[CIImage alloc] initWithCGImage:self.realImage.CGImage];
         width = (int)CGImageGetWidth(self.realImage.CGImage);
         height = (int)CGImageGetHeight(self.realImage.CGImage);
         orgRawData = CGDataProviderCopyData(CGImageGetDataProvider(self.realImage.CGImage));
@@ -131,15 +138,16 @@
             free(drawingData);
         drawingData = malloc(width * height * sizeof(uint32_t));
         
-        //Store grayscale as background
-        UIImage *grayscaleImage = [self convertImageToGrayScale:self.realImage];
-        backImage = [[CIImage alloc] initWithImage:grayscaleImage];
-
-        NSLog(@"%lu::%lu", (unsigned long)width, (unsigned long)height);
+        if (yellowAlphaData != nil)
+            free (yellowAlphaData);
+        yellowAlphaData = malloc(width * height * sizeof(float));
         
         //Store watermark image data
         waterMarkImage = [UIImage imageNamed:@"watermark.png"];
         waterMarkData = CGDataProviderCopyData(CGImageGetDataProvider(waterMarkImage.CGImage));
+        
+        [activity startAnimating];
+        [self performSelector:@selector(startProcessing) withObject:nil afterDelay:0.1f];
 #if 0
         if (pixelCalcData != nil)
             free (pixelCalcData);
@@ -157,19 +165,30 @@
             free (pixelAlphaTempData);
         pixelAlphaTempData = malloc(width * height * sizeof(int));
 #endif
-        
-        brightnessData = nil;
-        
-        @autoreleasepool {
-            [self calcBrightness];
-            [self updateBlueResultView];
-            [self updateYellowResultView];
-        }
-        
-        f_showToolBar = true;
-        [self performSelector:@selector(hideToolBar) withObject:nil afterDelay:1.0f];
-        f_animating = true;
     }
+    
+}
+
+- (void) startProcessing {
+    //Store grayscale as background
+    UIImage *grayscaleImage = [self convertImageToGrayScale:self.realImage];
+    grayData = CGDataProviderCopyData(CGImageGetDataProvider(grayscaleImage.CGImage));
+    int rowbytes = CGImageGetBytesPerRow(grayscaleImage.CGImage);
+    f_landscapeImage = false;
+
+    if (rowbytes != grayscaleImage.size.width)
+        f_landscapeImage = true;
+    
+    NSLog(@"%lu::%lu", (unsigned long)width, (unsigned long)height);
+    
+    brightnessData = nil;
+    
+    @autoreleasepool {
+        [self calcBrightness];
+        [self updateResultView];
+    }
+    
+    [activity stopAnimating];
 }
 
 - (void) hideToolBar {
@@ -200,37 +219,17 @@
                      }];
 }
 
--(void) updateBlueResultView {
-    float realAngVal1 = blueLimitLow + (blueAngVal1 / 360.0f) * (blueLimitHigh - blueLimitLow);
-    float realAngVal2 = blueLimitLow + (blueAngVal2 / 360.0f) * (blueLimitHigh - blueLimitLow);
+-(void) updateResultView {
+    float blue1 = blueLimitLow + (blueAngVal1 / 360.0f) * (blueLimitHigh - blueLimitLow);
+    float blue2 = blueLimitLow + (blueAngVal2 / 360.0f) * (blueLimitHigh - blueLimitLow);
+    float yellow1 = yellowLimitLow + (yellowAngVal1 / 360.0f) * (yellowLimitHigh - yellowLimitLow);
+    float yellow2 = yellowLimitLow + (yellowAngVal2 / 360.0f) * (yellowLimitHigh - yellowLimitLow);
     
-    //Pick only blue and yellow colors
-    blueHighlighted = [self render:MIN(realAngVal1, realAngVal2)
-                                        max:MAX(realAngVal1, realAngVal2) bright:false];
-    //Merge with gray-scale background image
-    blueResult = [self mergeWithBackground:blueHighlighted background:backImage];
-    
-    //Get final result image
-    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:yellowHighlighted background:blueResult]];
-}
-
--(void) updateYellowResultView {
-    float realAngVal1 = yellowLimitLow + (yellowAngVal1 / 360.0f) * (yellowLimitHigh - yellowLimitLow);
-    float realAngVal2 = yellowLimitLow + (yellowAngVal2 / 360.0f) * (yellowLimitHigh - yellowLimitLow);
-    
-    //Pick only blue and yellow colors
-    yellowHighlighted = [self render:MIN(realAngVal1, realAngVal2)
-                                          max:MAX(realAngVal1, realAngVal2) bright:true];
-    
-    //Get final result image
-    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:yellowHighlighted background:blueResult]];
-}
-
--(CIImage *) mergeWithBackground:(CIImage*)foreground background:(CIImage *)background {
-    CIFilter *filter = [CIFilter filterWithName:@"CISourceOverCompositing"];
-    [filter setValue:background forKey:kCIInputBackgroundImageKey];
-    [filter setValue:foreground forKey:kCIInputImageKey];
-    return [filter outputImage];
+    //Pick only blue and yellow color
+    ResultImageView.image = [self render:MIN(blue1, blue2)
+                            withMaxBlue:MAX(blue1, blue2)
+                            withMinYellow:MIN(yellow1, yellow2)
+                            withMaxYellow:MAX(yellow1, yellow2)];
 }
 
 -(void) rgbToHSV:(float*)rgb hsv:(float*)hsv
@@ -325,7 +324,8 @@
     return 0;
 }
 
-- (CIImage*)render:(int)minAngle max:(int)maxAngle bright:(BOOL)enable
+- (UIImage*)render:(int)minBlue withMaxBlue:(int)maxBlue
+     withMinYellow:(int)minYellow withMaxYellow:(int)maxYellow
 {
     float rgb[3], hsv[3];
     uint8_t* rgbaValues;
@@ -336,13 +336,16 @@
     int waterHeight = (int)CGImageGetHeight(waterMarkImage.CGImage);
     uint32_t* data = (uint32_t*)CFDataGetBytePtr(orgRawData);
     uint32_t* waterData = (uint32_t*)CFDataGetBytePtr(waterMarkData);
+    uint8_t* grayValues = (uint8_t*)CFDataGetBytePtr(grayData);
     int orgX = width - waterWidth - waterMarkOffset;
     int orgY = height - waterHeight - waterMarkOffset;
     int x,y;
+    int alpha = 1;
     
-    for (int y = 0; y < height; y++)
+    memset(yellowAlphaData, 0, sizeof(width * height * sizeof(int)));
+    for (y = 0; y < height; y++)
     {
-        for (int x = 0; x < width; x++)
+        for (x = 0; x < width; x++)
         {
             rgbaValues = (uint8_t*)&drawingData[y * width + x];
             
@@ -365,18 +368,36 @@
             rgb[2] = orgValues[2] / 255.0f;
             [self rgbToHSV:rgb hsv:hsv];
             
-            int alpha = 1;
-            alpha = (hsv[0] <= minAngle || hsv[0] >= maxAngle) ? 0 : 1;
-            if ((alpha == 1) && (enable == TRUE)) {
-                alpha = (hsv[1] <= satureLimitLow || hsv[1] >= satureLimitHigh) ? 0 : 1;
-                if (alpha == 1)
+            if ((hsv[0] > minBlue) && (hsv[0] < maxBlue)) {
+                alpha = 1;
+            } else if ((hsv[0] > minYellow) && (hsv[0] < maxYellow)) {
+                if ((hsv[1] > satureLimitLow) && (hsv[1] < satureLimitHigh))
                     alpha = [self checkBrightnessRangeX:x withY:y];
-            }
+                else
+                    alpha = 0;
+                
+                yellowAlphaData[y * width + x] = alpha;
+            } else
+                alpha = 0;
             
-            rgbaValues[0] = 255 * alpha;
-            rgbaValues[1] = orgValues[0] * alpha;
-            rgbaValues[2] = orgValues[1] * alpha;
-            rgbaValues[3] = orgValues[2] * alpha;
+            if (alpha) {
+                rgbaValues[0] = 255;
+                rgbaValues[1] = orgValues[0];
+                rgbaValues[2] = orgValues[1];
+                rgbaValues[3] = orgValues[2];
+            } else {
+                rgbaValues[0] = 255;
+                
+                if (f_landscapeImage) {
+                    rgbaValues[1] = grayValues[y * (width+16) + x];
+                    rgbaValues[2] = grayValues[y * (width+16) + x];
+                    rgbaValues[3] = grayValues[y * (width+16) + x];
+                } else {
+                    rgbaValues[1] = grayValues[y * width + x];
+                    rgbaValues[2] = grayValues[y * width + x];
+                    rgbaValues[3] = grayValues[y * width + x];
+                }
+            }
         }
     }
     
@@ -390,16 +411,31 @@
     CGColorSpaceRelease(colorSpace);
     
     CGImageRef newCGImage = CGBitmapContextCreateImage(context);
-    CIImage *newImage = [CIImage imageWithCGImage:newCGImage];
+    UIImage *image = [UIImage imageWithCGImage:newCGImage];
     CGImageRelease(newCGImage);
     CGContextRelease(context);
     
-    return newImage;
+    return image;
 }
 
 - (void) removingNoise:(CGPoint)pos {
-    int x = (int)((pos.x / ResultImageView.frame.size.width) * width);
-    int y = (int)((pos.y / ResultImageView.frame.size.height) * height);
+    CGPoint realPos;
+    int x, y;
+    if (UIInterfaceOrientationIsLandscape(from)) {
+        realPos = CGPointMake(pos.x - (ResultImageView.frame.size.width - ResultImageView.frame.size.height) / 2, pos.y);
+        x = (int)((realPos.x / ResultImageView.frame.size.height) * width);
+        y = (int)((realPos.y / ResultImageView.frame.size.height) * height);
+    }
+    else {
+        realPos = CGPointMake(pos.x,
+                              pos.y - (ResultImageView.frame.size.height - ResultImageView.frame.size.width) / 2);
+        x = (int)((realPos.x / ResultImageView.frame.size.width) * width);
+        y = (int)((realPos.y / ResultImageView.frame.size.width) * height);
+    }
+    
+    
+    uint8_t* grayValues = (uint8_t*)CFDataGetBytePtr(grayData);
+    uint8_t* rgbaValues;
     int i,j;
     
     for (j = y - drawingThick; j <= y + drawingThick; j++) {
@@ -409,7 +445,21 @@
             if ((i < 0) || (i >= width))
                 continue;
 
-            memset(&drawingData[j * width + i], 0, sizeof(uint32_t));
+            if (yellowAlphaData[j * width + i]) {
+                rgbaValues = (uint8_t*)&drawingData[j * width + i];
+                
+                rgbaValues[0] = 255;
+                if (f_landscapeImage) {
+                    rgbaValues[1] = grayValues[j * (width+16) + i];
+                    rgbaValues[2] = grayValues[j * (width+16) + i];
+                    rgbaValues[3] = grayValues[j * (width+16) + i];
+                } else {
+                    rgbaValues[1] = grayValues[j * width + i];
+                    rgbaValues[2] = grayValues[j * width + i];
+                    rgbaValues[3] = grayValues[j * width + i];
+                }
+                yellowAlphaData[j * width + i] = 0;
+            }
         }
     }
     
@@ -423,12 +473,12 @@
     CGColorSpaceRelease(colorSpace);
     
     CGImageRef newCGImage = CGBitmapContextCreateImage(context);
-    CIImage *newImage = [CIImage imageWithCGImage:newCGImage];
+    UIImage *image = [UIImage imageWithCGImage:newCGImage];
     CGImageRelease(newCGImage);
     CGContextRelease(context);
     
     //Get final result image
-    ResultImageView.image = [UIImage imageWithCIImage:[self mergeWithBackground:newImage background:blueResult]];
+    ResultImageView.image = image;
 }
 
 - (void)didReceiveMemoryWarning
@@ -441,6 +491,7 @@
 - (void) freeMemory {
     CFRelease(orgRawData);
     CFRelease(waterMarkData);
+    CFRelease(grayData);
     
     if (drawingData != nil)
         free (drawingData);
@@ -450,6 +501,9 @@
         free(brightnessData);
     brightnessData = nil;
     
+    if (yellowAlphaData != nil)
+        free (yellowAlphaData);
+    yellowAlphaData = nil;
 #if 0
     if (pixelCalcData != nil)
         free (pixelCalcData);
@@ -478,33 +532,52 @@
 - (void) blueAngleFirstChanged:(ColorRangePickerSlider *)slider
 {
 	blueAngVal1 = 360 - slider.value;
-    [self updateBlueResultView];
+    [self updateResultView];
 }
 
 - (void) blueAngleSecondChanged:(ColorRangePickerSlider *)slider
 {
 	blueAngVal2 = 360 - slider.value;
-    [self updateBlueResultView];
+    [self updateResultView];
 }
 
 - (void) yellowAngleFirstChanged:(ColorRangePickerSlider *)slider
 {
 	yellowAngVal1 = 360 - slider.value;
-    [self updateYellowResultView];
+    [self updateResultView];
 }
 
 - (void) yellowAngleSecondChanged:(ColorRangePickerSlider *)slider
 {
 	yellowAngVal2 = 360 - slider.value;
-    [self updateYellowResultView];
+    [self updateResultView];
 }
 
 - (void) brightChanged:(ColorRangePickerSlider *)slider
 {
 	brightLimitVal = 360 - slider.value;
-    [self updateYellowResultView];
+    [self updateResultView];
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    from = [UIDevice currentDevice].orientation;
+    
+    [self updateSliderRegion];
+
+    [UIView animateWithDuration:0.5f
+                          delay:0
+                        options:UIViewAnimationCurveLinear
+                     animations:^{
+                         toolBar.alpha = 1.0f;
+                     }
+                     completion:^(BOOL finished) {
+                         f_showToolBar = true;
+                         [self performSelector:@selector(hideToolBar) withObject:nil afterDelay:0.0f];
+                         f_animating = true;
+                     }];
+}
 - (void) viewWillDisappear:(BOOL)animated
 {
     if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound)
@@ -513,38 +586,63 @@
     [super viewWillDisappear:animated];
 }
 
-//-(UIView *) viewForZoomingInScrollView:(UIScrollView *)scrollView
-//{
-//    return ResultImageView;
-//}
-
 -(IBAction)onSave:(id)sender {
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *resultImage = ResultImageView.image.CIImage;
-    CGImageRef outputImageRef = [context createCGImage:resultImage fromRect:[resultImage extent]];
-    
-    UIImageWriteToSavedPhotosAlbum([UIImage imageWithCGImage:outputImageRef], nil, nil, nil);
+    UIImageWriteToSavedPhotosAlbum(ResultImageView.image, nil, nil, nil);
+    UIAlertView * svOkAlert = [[UIAlertView alloc]initWithTitle:Nil message:@"Saved successfully" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+    [svOkAlert show];
 }
 
 - (IBAction)onSend:(id)sender {
+    UIImageWriteToSavedPhotosAlbum(ResultImageView.image, nil, nil, nil);
     MFMailComposeViewController *controller = [[MFMailComposeViewController alloc] init];
+    controller.mailComposeDelegate = self;
     if ([MFMailComposeViewController canSendMail])
     {
         NSMutableString *body = [NSMutableString string];
         [controller setSubject:@"Sending Image"];
         
-        CIContext *context = [CIContext contextWithOptions:nil];
-        CIImage *resultImage = ResultImageView.image.CIImage;
-        CGImageRef outputImageRef = [context createCGImage:resultImage fromRect:[resultImage extent]];
-        UIImage *image = [UIImage imageWithCGImage:outputImageRef];
-        
-        NSData *myData = UIImageJPEGRepresentation(image, 1.0);
+        NSData *myData = UIImageJPEGRepresentation(ResultImageView.image, 1.0);
         
         [controller addAttachmentData:myData mimeType:@"image/png" fileName:@"coolImage"];
         controller.mailComposeDelegate = self;
         
         [self presentModalViewController:controller animated:YES];
     }
+}
+
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    
+    [controller dismissViewControllerAnimated:YES completion:^{
+        switch (result) {
+            case MFMailComposeResultCancelled:
+            {
+//                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:Nil message:@"Mail has been Cancelled" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                [alert show];
+                break;
+            }
+            case MFMailComposeResultSaved:
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:Nil message:@"Mail has been Saved" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                break;
+            }
+            case MFMailComposeResultSent:
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:Nil message:@"Mail has been Sent" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];            break;
+            }
+            case MFMailComposeResultFailed:
+            {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:Nil message:@"Mail has been Sent Failed" delegate:Nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
+                break;
+            }
+            default:
+                break;
+        }
+    }];
 }
 
 - (void)_handleTouch:(UITapGestureRecognizer*)recognizer {
@@ -559,8 +657,69 @@
 }
 
 - (void)_handlePan:(UIPanGestureRecognizer*)recognizer {
-    curPos = [recognizer locationInView:scrollView];
+    curPos = [recognizer locationInView:ResultImageView];
     [self removingNoise:curPos];
+}
+
+-(BOOL)shouldAutorotate {
+    return YES;
+}
+
+-(NSUInteger)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    
+    if (UIInterfaceOrientationIsLandscape(from) == UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+        return;
+    
+    if (f_showToolBar == f_animating)
+        toolBar.alpha = 0.0f;
+}
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    from = [UIDevice currentDevice].orientation;
+    
+    if (UIInterfaceOrientationIsLandscape(from) == UIInterfaceOrientationIsLandscape(fromInterfaceOrientation))
+        return;
+    
+    [self updateSliderRegion];
+
+    if (f_showToolBar == f_animating) {
+        [toolBar setCenter:CGPointMake(toolBar.center.x, toolBar.center.y + toolBar.frame.size.height - 50)];
+        [UIView animateWithDuration:0.5f
+                              delay:0
+                            options:UIViewAnimationCurveLinear
+                         animations:^{
+                             toolBar.alpha = 0.5f;
+                         }
+                         completion:^(BOOL finished) {
+                         }];
+    }
+}
+
+- (void) updateSliderRegion {
+    CGSize sliderSize = sliderRegion.bounds.size;
+    int sliderWidth = (sliderSize.width - 40) / 2;
+    int sliderHeight = 40;
+    int gapX1 = 10;
+    int gapX2 = 20;
+    int gapY1 = (sliderSize.height - sliderHeight * 2) / 3;
+    int gapY2 = (sliderSize.height - sliderHeight * 3) / 4;
+    
+    [blueAng1 setFrame: CGRectMake(gapX1, gapY1, sliderWidth, sliderHeight)];
+    [blueAng2 setFrame:CGRectMake(gapX1, gapY1*2+sliderHeight, sliderWidth, sliderHeight)];
+    [yellowAng1 setFrame:CGRectMake(gapX1+gapX2+sliderWidth, gapY2, sliderWidth, sliderHeight)];
+    [yellowAng2 setFrame:CGRectMake(gapX1+gapX2+sliderWidth, gapY2*2+sliderHeight,
+                                    sliderWidth, sliderHeight)];
+    [brightBar setFrame:CGRectMake(gapX1+gapX2+sliderWidth, gapY2*3+sliderHeight*2,
+                                   sliderWidth, sliderHeight)];
+    
+    blueAng1.value = 1.0 - blueAngVal1 / 360.0f;
+    blueAng2.value = 1.0 - blueAngVal2 / 360.0f;
+    yellowAng1.value = 1.0 - yellowAngVal1 / 360.0f;
+    yellowAng2.value = 1.0 - yellowAngVal2 / 360.0f;
+    brightBar.value = 1.0 - brightLimitVal / 360.0f;
 }
 
 #if 0

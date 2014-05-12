@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		70AAFFCC191A1E65008252BB /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AAFFCB191A1E65008252BB /* logo@2x.png */; };
+		042B44F0191CA1DD005F4D20 /* icon_29.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44EA191CA1DD005F4D20 /* icon_29.png */; };
+		042B44F1191CA1DD005F4D20 /* icon_40.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44EB191CA1DD005F4D20 /* icon_40.png */; };
+		042B44F2191CA1DD005F4D20 /* icon_58.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44EC191CA1DD005F4D20 /* icon_58.png */; };
+		042B44F3191CA1DD005F4D20 /* icon_76.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44ED191CA1DD005F4D20 /* icon_76.png */; };
+		042B44F4191CA1DD005F4D20 /* icon_80.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44EE191CA1DD005F4D20 /* icon_80.png */; };
+		042B44F5191CA1DD005F4D20 /* icon_152.png in Resources */ = {isa = PBXBuildFile; fileRef = 042B44EF191CA1DD005F4D20 /* icon_152.png */; };
 		70AAFFCE191A3379008252BB /* btn_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 70AAFFCD191A3379008252BB /* btn_background.png */; };
 		70C5B15019055D6400038A38 /* ColorRangePickerSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C5B14F19055D6400038A38 /* ColorRangePickerSlider.m */; };
 		70C5B15319055DBD00038A38 /* UnitSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 70C5B15219055DBD00038A38 /* UnitSlider.m */; };
@@ -16,6 +21,15 @@
 		70C910E9190D45C1009CD3FE /* brightness.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C910E6190D45C1009CD3FE /* brightness.png */; };
 		70C910EA190D45C1009CD3FE /* yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 70C910E7190D45C1009CD3FE /* yellow.png */; };
 		70E08241191B65C400224485 /* watermark.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08240191B65C400224485 /* watermark.png */; };
+		70E08244191D094800224485 /* APPNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70E08243191D094800224485 /* APPNavigationController.m */; };
+		70E0824D191DD5AA00224485 /* icon_50.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08245191DD5AA00224485 /* icon_50.png */; };
+		70E0824E191DD5AA00224485 /* icon_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08246191DD5AA00224485 /* icon_72.png */; };
+		70E0824F191DD5AA00224485 /* icon_100.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08247191DD5AA00224485 /* icon_100.png */; };
+		70E08250191DD5AA00224485 /* icon_144.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08248191DD5AA00224485 /* icon_144.png */; };
+		70E08251191DD5AA00224485 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E08249191DD5AA00224485 /* Default.png */; };
+		70E08252191DD5AA00224485 /* logo_1536x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824A191DD5AA00224485 /* logo_1536x2048.png */; };
+		70E08253191DD5AA00224485 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824B191DD5AA00224485 /* Default~ipad.png */; };
+		70E08254191DD5AA00224485 /* logo_2048x1536.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824C191DD5AA00224485 /* logo_2048x1536.png */; };
 		F3A66598190276A000F5584D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66597190276A000F5584D /* Foundation.framework */; };
 		F3A6659A190276A000F5584D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66599190276A000F5584D /* CoreGraphics.framework */; };
 		F3A6659C190276A000F5584D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A6659B190276A000F5584D /* UIKit.framework */; };
@@ -44,7 +58,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		70AAFFCB191A1E65008252BB /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "logo@2x.png"; path = "Images/logo@2x.png"; sourceTree = "<group>"; };
+		042B44EA191CA1DD005F4D20 /* icon_29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_29.png; path = Images/icon_29.png; sourceTree = "<group>"; };
+		042B44EB191CA1DD005F4D20 /* icon_40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_40.png; path = Images/icon_40.png; sourceTree = "<group>"; };
+		042B44EC191CA1DD005F4D20 /* icon_58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_58.png; path = Images/icon_58.png; sourceTree = "<group>"; };
+		042B44ED191CA1DD005F4D20 /* icon_76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_76.png; path = Images/icon_76.png; sourceTree = "<group>"; };
+		042B44EE191CA1DD005F4D20 /* icon_80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_80.png; path = Images/icon_80.png; sourceTree = "<group>"; };
+		042B44EF191CA1DD005F4D20 /* icon_152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_152.png; path = Images/icon_152.png; sourceTree = "<group>"; };
 		70AAFFCD191A3379008252BB /* btn_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btn_background.png; path = Images/btn_background.png; sourceTree = "<group>"; };
 		70C5B14E19055D6400038A38 /* ColorRangePickerSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorRangePickerSlider.h; sourceTree = "<group>"; };
 		70C5B14F19055D6400038A38 /* ColorRangePickerSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorRangePickerSlider.m; sourceTree = "<group>"; };
@@ -55,7 +74,17 @@
 		70C910E6190D45C1009CD3FE /* brightness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = brightness.png; path = Images/brightness.png; sourceTree = "<group>"; };
 		70C910E7190D45C1009CD3FE /* yellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = yellow.png; path = Images/yellow.png; sourceTree = "<group>"; };
 		70E08240191B65C400224485 /* watermark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watermark.png; path = Images/watermark.png; sourceTree = "<group>"; };
-		F3A66594190276A000F5584D /* HighlightImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HighlightImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70E08242191D094800224485 /* APPNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPNavigationController.h; sourceTree = "<group>"; };
+		70E08243191D094800224485 /* APPNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPNavigationController.m; sourceTree = "<group>"; };
+		70E08245191DD5AA00224485 /* icon_50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_50.png; path = Images/icon_50.png; sourceTree = "<group>"; };
+		70E08246191DD5AA00224485 /* icon_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_72.png; path = Images/icon_72.png; sourceTree = "<group>"; };
+		70E08247191DD5AA00224485 /* icon_100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_100.png; path = Images/icon_100.png; sourceTree = "<group>"; };
+		70E08248191DD5AA00224485 /* icon_144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon_144.png; path = Images/icon_144.png; sourceTree = "<group>"; };
+		70E08249191DD5AA00224485 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Images/Default.png; sourceTree = "<group>"; };
+		70E0824A191DD5AA00224485 /* logo_1536x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_1536x2048.png; path = Images/logo_1536x2048.png; sourceTree = "<group>"; };
+		70E0824B191DD5AA00224485 /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~ipad.png"; path = "Images/Default~ipad.png"; sourceTree = "<group>"; };
+		70E0824C191DD5AA00224485 /* logo_2048x1536.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_2048x1536.png; path = Images/logo_2048x1536.png; sourceTree = "<group>"; };
+		F3A66594190276A000F5584D /* SWAROVSKI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWAROVSKI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A66597190276A000F5584D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3A66599190276A000F5584D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F3A6659B190276A000F5584D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -105,9 +134,22 @@
 		70C5B154190564E600038A38 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				70E08245191DD5AA00224485 /* icon_50.png */,
+				70E08246191DD5AA00224485 /* icon_72.png */,
+				70E08247191DD5AA00224485 /* icon_100.png */,
+				70E08248191DD5AA00224485 /* icon_144.png */,
+				70E08249191DD5AA00224485 /* Default.png */,
+				70E0824A191DD5AA00224485 /* logo_1536x2048.png */,
+				70E0824B191DD5AA00224485 /* Default~ipad.png */,
+				70E0824C191DD5AA00224485 /* logo_2048x1536.png */,
+				042B44EA191CA1DD005F4D20 /* icon_29.png */,
+				042B44EB191CA1DD005F4D20 /* icon_40.png */,
+				042B44EC191CA1DD005F4D20 /* icon_58.png */,
+				042B44ED191CA1DD005F4D20 /* icon_76.png */,
+				042B44EE191CA1DD005F4D20 /* icon_80.png */,
+				042B44EF191CA1DD005F4D20 /* icon_152.png */,
 				70E08240191B65C400224485 /* watermark.png */,
 				70AAFFCD191A3379008252BB /* btn_background.png */,
-				70AAFFCB191A1E65008252BB /* logo@2x.png */,
 				70C910E5190D45C1009CD3FE /* blue.png */,
 				70C910E6190D45C1009CD3FE /* brightness.png */,
 				70C910E7190D45C1009CD3FE /* yellow.png */,
@@ -129,7 +171,7 @@
 		F3A66595190276A000F5584D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F3A66594190276A000F5584D /* HighlightImage.app */,
+				F3A66594190276A000F5584D /* SWAROVSKI.app */,
 				F3A665B5190276A000F5584D /* HighlightImageTests.xctest */,
 			);
 			name = Products;
@@ -151,6 +193,8 @@
 			children = (
 				F3A665A6190276A000F5584D /* APPAppDelegate.h */,
 				F3A665A7190276A000F5584D /* APPAppDelegate.m */,
+				70E08242191D094800224485 /* APPNavigationController.h */,
+				70E08243191D094800224485 /* APPNavigationController.m */,
 				F3A665A9190276A000F5584D /* Main.storyboard */,
 				F3A665AC190276A000F5584D /* APPViewController.h */,
 				F3A665AD190276A000F5584D /* APPViewController.m */,
@@ -213,7 +257,7 @@
 			);
 			name = HighlightImage;
 			productName = HighlightImage;
-			productReference = F3A66594190276A000F5584D /* HighlightImage.app */;
+			productReference = F3A66594190276A000F5584D /* SWAROVSKI.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F3A665B4190276A000F5584D /* HighlightImageTests */ = {
@@ -277,15 +321,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				70C910E9190D45C1009CD3FE /* brightness.png in Resources */,
-				70AAFFCC191A1E65008252BB /* logo@2x.png in Resources */,
 				70AAFFCE191A3379008252BB /* btn_background.png in Resources */,
+				042B44F2191CA1DD005F4D20 /* icon_58.png in Resources */,
+				042B44F4191CA1DD005F4D20 /* icon_80.png in Resources */,
+				70E0824E191DD5AA00224485 /* icon_72.png in Resources */,
+				70E08253191DD5AA00224485 /* Default~ipad.png in Resources */,
 				F3A665B0190276A000F5584D /* Images.xcassets in Resources */,
+				70E08251191DD5AA00224485 /* Default.png in Resources */,
 				70C910E8190D45C1009CD3FE /* blue.png in Resources */,
+				70E08254191DD5AA00224485 /* logo_2048x1536.png in Resources */,
 				F3A665A2190276A000F5584D /* InfoPlist.strings in Resources */,
 				70C5B1591905679500038A38 /* colorPickerKnob@2x.png in Resources */,
 				F3A665AB190276A000F5584D /* Main.storyboard in Resources */,
+				70E0824F191DD5AA00224485 /* icon_100.png in Resources */,
+				70E08252191DD5AA00224485 /* logo_1536x2048.png in Resources */,
+				042B44F3191CA1DD005F4D20 /* icon_76.png in Resources */,
+				042B44F0191CA1DD005F4D20 /* icon_29.png in Resources */,
+				70E0824D191DD5AA00224485 /* icon_50.png in Resources */,
 				70E08241191B65C400224485 /* watermark.png in Resources */,
+				042B44F1191CA1DD005F4D20 /* icon_40.png in Resources */,
+				70E08250191DD5AA00224485 /* icon_144.png in Resources */,
 				70C910EA190D45C1009CD3FE /* yellow.png in Resources */,
+				042B44F5191CA1DD005F4D20 /* icon_152.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +366,7 @@
 				F3AAFE441904172800CEDB50 /* ImageBrowserViewController.m in Sources */,
 				70C5B15319055DBD00038A38 /* UnitSlider.m in Sources */,
 				F3A665A8190276A000F5584D /* APPAppDelegate.m in Sources */,
+				70E08244191D094800224485 /* APPNavigationController.m in Sources */,
 				F3A665A4190276A000F5584D /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -395,6 +453,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = SWAROVSKI;
 				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -430,6 +489,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PRODUCT_NAME = SWAROVSKI;
 				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -440,13 +500,13 @@
 		F3A665C7190276A000F5584D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighlightImage/HighlightImage-Prefix.pch";
 				INFOPLIST_FILE = "HighlightImage/HighlightImage-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = SWAROVSKI;
 				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
@@ -456,13 +516,13 @@
 		F3A665C8190276A000F5584D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: JinLing Zhang (D4J7AW2S69)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HighlightImage/HighlightImage-Prefix.pch";
 				INFOPLIST_FILE = "HighlightImage/HighlightImage-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				PRODUCT_NAME = SWAROVSKI;
 				PROVISIONING_PROFILE = "02897112-92DC-47D7-968E-A45043510621";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
