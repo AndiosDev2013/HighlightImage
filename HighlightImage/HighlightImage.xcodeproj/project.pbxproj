@@ -30,6 +30,7 @@
 		70E08252191DD5AA00224485 /* logo_1536x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824A191DD5AA00224485 /* logo_1536x2048.png */; };
 		70E08253191DD5AA00224485 /* Default~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824B191DD5AA00224485 /* Default~ipad.png */; };
 		70E08254191DD5AA00224485 /* logo_2048x1536.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E0824C191DD5AA00224485 /* logo_2048x1536.png */; };
+		70E082591921E89000224485 /* watermark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 70E082581921E89000224485 /* watermark@2x.png */; };
 		F3A66598190276A000F5584D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66597190276A000F5584D /* Foundation.framework */; };
 		F3A6659A190276A000F5584D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A66599190276A000F5584D /* CoreGraphics.framework */; };
 		F3A6659C190276A000F5584D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F3A6659B190276A000F5584D /* UIKit.framework */; };
@@ -84,6 +85,7 @@
 		70E0824A191DD5AA00224485 /* logo_1536x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_1536x2048.png; path = Images/logo_1536x2048.png; sourceTree = "<group>"; };
 		70E0824B191DD5AA00224485 /* Default~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default~ipad.png"; path = "Images/Default~ipad.png"; sourceTree = "<group>"; };
 		70E0824C191DD5AA00224485 /* logo_2048x1536.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_2048x1536.png; path = Images/logo_2048x1536.png; sourceTree = "<group>"; };
+		70E082581921E89000224485 /* watermark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "watermark@2x.png"; path = "Images/watermark@2x.png"; sourceTree = "<group>"; };
 		F3A66594190276A000F5584D /* SWAROVSKI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWAROVSKI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3A66597190276A000F5584D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F3A66599190276A000F5584D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -149,6 +151,7 @@
 				042B44EE191CA1DD005F4D20 /* icon_80.png */,
 				042B44EF191CA1DD005F4D20 /* icon_152.png */,
 				70E08240191B65C400224485 /* watermark.png */,
+				70E082581921E89000224485 /* watermark@2x.png */,
 				70AAFFCD191A3379008252BB /* btn_background.png */,
 				70C910E5190D45C1009CD3FE /* blue.png */,
 				70C910E6190D45C1009CD3FE /* brightness.png */,
@@ -323,6 +326,7 @@
 				70C910E9190D45C1009CD3FE /* brightness.png in Resources */,
 				70AAFFCE191A3379008252BB /* btn_background.png in Resources */,
 				042B44F2191CA1DD005F4D20 /* icon_58.png in Resources */,
+				70E082591921E89000224485 /* watermark@2x.png in Resources */,
 				042B44F4191CA1DD005F4D20 /* icon_80.png in Resources */,
 				70E0824E191DD5AA00224485 /* icon_72.png in Resources */,
 				70E08253191DD5AA00224485 /* Default~ipad.png in Resources */,

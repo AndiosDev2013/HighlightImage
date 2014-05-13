@@ -143,7 +143,15 @@
         yellowAlphaData = malloc(width * height * sizeof(float));
         
         //Store watermark image data
-        waterMarkImage = [UIImage imageNamed:@"watermark.png"];
+        
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+            ([UIScreen mainScreen].scale == 2.0))
+            //Retian display
+            waterMarkImage = [UIImage imageNamed:@"watermark@2x.png"];
+        else
+            // Non-Retian display
+            waterMarkImage = [UIImage imageNamed:@"watermark.png"];
+        
         waterMarkData = CGDataProviderCopyData(CGImageGetDataProvider(waterMarkImage.CGImage));
         
         [activity startAnimating];
@@ -174,10 +182,13 @@
     UIImage *grayscaleImage = [self convertImageToGrayScale:self.realImage];
     grayData = CGDataProviderCopyData(CGImageGetDataProvider(grayscaleImage.CGImage));
     int rowbytes = CGImageGetBytesPerRow(grayscaleImage.CGImage);
+    int size = CFDataGetLength(grayData);
     f_landscapeImage = false;
 
-    if (rowbytes != grayscaleImage.size.width)
+    if (rowbytes != grayscaleImage.size.width) {
+        diffPixelCount = rowbytes - grayscaleImage.size.width;
         f_landscapeImage = true;
+    }
     
     NSLog(@"%lu::%lu", (unsigned long)width, (unsigned long)height);
     
@@ -337,10 +348,20 @@
     uint32_t* data = (uint32_t*)CFDataGetBytePtr(orgRawData);
     uint32_t* waterData = (uint32_t*)CFDataGetBytePtr(waterMarkData);
     uint8_t* grayValues = (uint8_t*)CFDataGetBytePtr(grayData);
-    int orgX = width - waterWidth - waterMarkOffset;
-    int orgY = height - waterHeight - waterMarkOffset;
-    int x,y;
+    int orgX, orgY, x,y;
     int alpha = 1;
+    
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)] &&
+        ([UIScreen mainScreen].scale == 2.0)) {
+        //Retina display
+        orgX = width - waterWidth - waterMarkOffset;
+        orgY = height - waterHeight - waterMarkOffset;
+    } else {
+        //Non-Retina display
+        orgX = width - waterWidth - waterMarkOffset / 2;
+        orgY = height - waterHeight - waterMarkOffset / 2;
+    }
+
     
     memset(yellowAlphaData, 0, sizeof(width * height * sizeof(int)));
     for (y = 0; y < height; y++)
@@ -389,9 +410,9 @@
                 rgbaValues[0] = 255;
                 
                 if (f_landscapeImage) {
-                    rgbaValues[1] = grayValues[y * (width+16) + x];
-                    rgbaValues[2] = grayValues[y * (width+16) + x];
-                    rgbaValues[3] = grayValues[y * (width+16) + x];
+                    rgbaValues[1] = grayValues[y * (width+diffPixelCount) + x];
+                    rgbaValues[2] = grayValues[y * (width+diffPixelCount) + x];
+                    rgbaValues[3] = grayValues[y * (width+diffPixelCount) + x];
                 } else {
                     rgbaValues[1] = grayValues[y * width + x];
                     rgbaValues[2] = grayValues[y * width + x];
@@ -450,9 +471,9 @@
                 
                 rgbaValues[0] = 255;
                 if (f_landscapeImage) {
-                    rgbaValues[1] = grayValues[j * (width+16) + i];
-                    rgbaValues[2] = grayValues[j * (width+16) + i];
-                    rgbaValues[3] = grayValues[j * (width+16) + i];
+                    rgbaValues[1] = grayValues[j * (width+diffPixelCount) + i];
+                    rgbaValues[2] = grayValues[j * (width+diffPixelCount) + i];
+                    rgbaValues[3] = grayValues[j * (width+diffPixelCount) + i];
                 } else {
                     rgbaValues[1] = grayValues[j * width + i];
                     rgbaValues[2] = grayValues[j * width + i];

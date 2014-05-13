@@ -50,6 +50,7 @@
     bool f_showToolBar;
     bool f_animating;
     bool f_landscapeImage;
+    int diffPixelCount;
     UIInterfaceOrientation from;
     CGPoint curPos;
 }
